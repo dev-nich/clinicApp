@@ -2,19 +2,18 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const config = require("../utils/config");
 const router = require("express").Router();
-const Model = require("../models/person");
-const User = require("../models/user");
+const Model = require("../models/employee");
 const responses = require("../constants/responses");
 
 router.get("/", async (request, response) => {
-  const collection = await Model.find({});
+  const collection = await Model.find({}).populate("person").populate("position");
   response.json(collection);
 });
 
 router.get("/:id", async (request, response) => {
   const id = request.params.id.trim();
 
-  const result = await Model.find({ _id: id });
+  const result = await Model.find({ _id: id }).populate("person");
   if (result) {
     response.json(result);
   } else {
@@ -22,29 +21,14 @@ router.get("/:id", async (request, response) => {
   }
 });
 
-router.post("/safe", async (request, response) => {
-  const body = request.body;
-  const item = new Model(body);
-
-  const savedItem = await item.save();
-
-  response.status(201).json(savedItem).end();
-});
-
 router.post("/", async (request, response) => {
   const body = request.body;
   if (config.ENV !== "test") {
     const decodedToken = jwt.verify(request.token, config.SECRET);
     if (!decodedToken.id) {
-      return response.status(400).json({ error: responses.ERR_TOKEN_INVALID});
+      return response.status(400).json({ error: responses.ERR_TOKEN_INVALID });
     }
     const user = await User.findById(decodedToken.id);
-
-    if (!user) {
-      return response
-        .status(400)
-        .json({ error: responses.ERR_USER_INVALID });
-    }
   }
 
   const item = new Model(body);
@@ -78,7 +62,7 @@ router.delete("/:id", async (request, response) => {
   if (config.ENV !== "test") {
     const decodedToken = jwt.verify(request.token, config.SECRET);
     if (!decodedToken.id) {
-      return response.status(400).json({ error: responses.ERR_TOKEN_INVALID });
+      return response.status(400).json({ error: responses.ERR_TOKEN_INVALID  });
     }
   }
 

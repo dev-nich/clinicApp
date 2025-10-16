@@ -10,25 +10,14 @@ mongoose.connect(url).catch((error) => {
 });
 
 const schema = mongoose.Schema({
-  username: {
+  title: {
     type: String,
+    required: true,
     unique: true,
-    required: true,
-    minLength: 3,
   },
-  passwordHash: {
+  description: {
     type: String,
-    required: true,
-  },
-  employee: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Employee",
-    required: true,
-  },
-  access: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Access",
-    required: true,
+    required: false,
   },
 });
 
@@ -37,8 +26,7 @@ schema.set("toJSON", {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
     delete returnedObject.__v;
-    delete returnedObject.passwordHash;
   },
 });
 
-module.exports = mongoose.model("User", schema);
+module.exports = mongoose.model("Position", schema);

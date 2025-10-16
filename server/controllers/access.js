@@ -2,9 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const config = require("../utils/config");
 const router = require("express").Router();
-const Model = require("../models/person");
-const User = require("../models/user");
-const responses = require("../constants/responses");
+const Model = require("../models/access");
 
 router.get("/", async (request, response) => {
   const collection = await Model.find({});
@@ -22,28 +20,19 @@ router.get("/:id", async (request, response) => {
   }
 });
 
-router.post("/safe", async (request, response) => {
-  const body = request.body;
-  const item = new Model(body);
-
-  const savedItem = await item.save();
-
-  response.status(201).json(savedItem).end();
-});
-
 router.post("/", async (request, response) => {
   const body = request.body;
   if (config.ENV !== "test") {
     const decodedToken = jwt.verify(request.token, config.SECRET);
     if (!decodedToken.id) {
-      return response.status(400).json({ error: responses.ERR_TOKEN_INVALID});
+      return response.status(400).json({ error: "token invalid" });
     }
     const user = await User.findById(decodedToken.id);
 
     if (!user) {
       return response
         .status(400)
-        .json({ error: responses.ERR_USER_INVALID });
+        .json({ error: "userId missing or not valid" });
     }
   }
 
@@ -62,7 +51,7 @@ router.patch("/:id", async (request, response) => {
   if (config.ENV !== "test") {
     const decodedToken = jwt.verify(request.token, config.SECRET);
     if (!decodedToken.id) {
-      return response.status(400).json({ error: responses.ERR_TOKEN_INVALID });
+      return response.status(400).json({ error: "token invalid" });
     }
   }
 
@@ -78,7 +67,7 @@ router.delete("/:id", async (request, response) => {
   if (config.ENV !== "test") {
     const decodedToken = jwt.verify(request.token, config.SECRET);
     if (!decodedToken.id) {
-      return response.status(400).json({ error: responses.ERR_TOKEN_INVALID });
+      return response.status(400).json({ error: "token invalid" });
     }
   }
 

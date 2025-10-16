@@ -2,17 +2,18 @@ const bcrypt = require('bcrypt')
 const router = require('express').Router()
 const Model = require('../models/user')
 const Person = require('../models/person')
+const responses = require("../constants/responses");
 
 
 router.get('/', async (request, response) => {
-  const collection = await Model.find({}).populate("person")
+  const collection = await Model.find({})
   response.json(collection)
 })
 
 router.get('/:id', async (request, response) => {
   const id = request.params.id.trim()
 
-  const result = await Model.find({_id:id}).populate("person")
+  const result = await Model.find({_id:id})
 
   if(result){
     response.json(result)
@@ -22,16 +23,10 @@ router.get('/:id', async (request, response) => {
 })
 
 router.post('/', async (request, response) => {
-    const { username, password, person } = request.body
-
-    const findPerson = await Person.find({_id:person})
-
-    if(findPerson.length === 0){
-      return response.status(400).json({error: 'person not found'})
-    }
+    const { username, password, employee, access } = request.body
 
     if(password.length < 3){
-      return response.status(400).json({error: 'password is shorter than the minimum allowed length (3)'})
+      return response.status(400).json({error: responses.ERR_PASSWORD_INVALID})
     }
   
     const saltRounds = 10
@@ -40,7 +35,8 @@ router.post('/', async (request, response) => {
     const item = new Model({
       username,
       passwordHash,
-      person
+      employee,
+      access
     })
   
     const savedItem = await item.save()
