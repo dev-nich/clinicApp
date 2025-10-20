@@ -1,19 +1,12 @@
-import Button from "@mui/material/Button";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import TextField from "@mui/material/TextField";
-import loginService from '../services/login'
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 const Users = () => {
-
-
-    return <>
-        <Container> <h1>TEST</h1>
-        </Container>
+  return (
+    <>
+      <h1>Users Page</h1>
     </>
+  );
+};
 
-
-}
-
-export default Users
+export default Users;

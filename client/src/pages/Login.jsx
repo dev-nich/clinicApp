@@ -4,8 +4,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
 import loginService from '../services/login'
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from 'react';
 
 const Login = () => {
+    const {setUsername, login} = useContext(AuthContext)
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -18,6 +21,10 @@ const Login = () => {
         
         ).then((response)=>{
             localStorage.setItem('token', response.token)
+            localStorage.setItem('username', response.username)
+            login()
+            setUsername(response.username)
+
         })
     };
 
