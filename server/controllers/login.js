@@ -4,6 +4,7 @@ const router = require("express").Router();
 const User = require("../models/user");
 
 router.post("/", async (request, response) => {
+  
   const { username, password } = request.body;
 
   const user = await User.findOne({ username });
@@ -28,11 +29,12 @@ router.post("/", async (request, response) => {
   //     { expiresIn: 60*60 }
   // )
 
+
   const token = jwt.sign(userForToken, process.env.SECRET);
 
   response
     .status(200)
-    .send({ token, username: user.username, name: user.name });
+    .send({ token, username: user.username });
 });
 
 module.exports = router;

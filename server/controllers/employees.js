@@ -3,6 +3,9 @@ const bcrypt = require("bcrypt");
 const config = require("../utils/config");
 const router = require("express").Router();
 const Model = require("../models/employee");
+const User = require("../models/user");
+const Position = require("../models/position");
+const Person = require("../models/person");
 const responses = require("../constants/responses");
 
 router.get("/", async (request, response) => {
@@ -13,7 +16,7 @@ router.get("/", async (request, response) => {
 router.get("/:id", async (request, response) => {
   const id = request.params.id.trim();
 
-  const result = await Model.find({ _id: id }).populate("person");
+  const result = await Model.find({ _id: id }).populate("person").populate("position")
   if (result) {
     response.json(result);
   } else {
@@ -30,6 +33,18 @@ router.post("/", async (request, response) => {
     }
     const user = await User.findById(decodedToken.id);
   }
+
+  const isPersonExist = await Person.findOne({_id:body.person})
+  const isPositionExist = await Position.findOne({_id:body.position})
+
+  if(isPersonExist === null){
+    return response.status(400).json({ error: responses.ERR_PERSON_INVALID })
+  }
+
+  if(isPositionExist === null){
+    return response.status(400).json({ error: responses.ERR_POSITION_INVALID })
+  }
+
 
   const item = new Model(body);
   const savedItem = await item.save();
