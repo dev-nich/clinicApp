@@ -20,6 +20,9 @@ router.get("/", async (request, response) => {
       },
     })
     .populate("access");
+    response.setHeader("X-Total-Count","10")
+    response.setHeader("Access-Control-Expose-Headers","Content-Range")
+    response.setHeader("Content-Range","bytes: 0-9/*")
   response.json(collection);
 });
 

@@ -6,6 +6,9 @@ const Model = require("../models/access");
 
 router.get("/", async (request, response) => {
   const collection = await Model.find({});
+  response.setHeader("X-Total-Count","10")
+  response.setHeader("Access-Control-Expose-Headers","Content-Range")
+  response.setHeader("Content-Range","bytes: 0-9/*")
   response.json(collection);
 });
 
@@ -14,7 +17,8 @@ router.get("/:id", async (request, response) => {
 
   const result = await Model.find({ _id: id });
   if (result) {
-    response.json(result);
+    result[0].id = result[0]._id.toString()
+    response.json(result[0]);
   } else {
     response.status(404).end();
   }
@@ -47,7 +51,7 @@ router.post("/clean", async (request, response) => {
   response.json(200).end;
 });
 
-router.patch("/:id", async (request, response) => {
+router.put("/:id", async (request, response) => {
   if (config.ENV !== "test") {
     const decodedToken = jwt.verify(request.token, config.SECRET);
     if (!decodedToken.id) {
