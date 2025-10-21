@@ -22,7 +22,7 @@ const Header = (props) => {
       <Grid container spacing={1}>
         {PAGES.sort((a, b) => a.order - b.order).map((item) => {
           return (
-            <Grid key="custom_nav">
+            <Grid key={item.name}>
               <NavLink key={item.name} to={item.path}>
                 {(isLoggedIn && item.authAccess) ||
                 (!isLoggedIn && !item.authAccess)

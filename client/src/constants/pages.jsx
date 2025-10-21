@@ -2,6 +2,7 @@ import Login from "../pages/Login";
 import Test from "../pages/Test";
 import Users from "../pages/Users";
 import Patients from "../pages/Patients";
+import Persons from "../pages/Persons";
 import Employees from "../pages/Employees";
 import Dashboard from "../pages/Dashboard";
 import Logout from "../pages/Logout";
@@ -34,28 +35,35 @@ const PAGES = [
     path: "/test",
     authAccess: true,
     component: <Test />,
-    order: 5,
+    order: 4,
   },
   {
     name: "Users",
     path: "/users",
     authAccess: true,
     component: <Users />,
-    order: 4,
+    order: 5,
   },
   {
     name: "Employees",
     path: "/employees",
     authAccess: true,
     component: <Employees />,
-    order: 5,
+    order: 6,
+  },
+  {
+    name: "Persons",
+    path: "/persons",
+    authAccess: true,
+    component: <Persons />,
+    order: 7,
   },
   {
     name: "Logout",
     path: "/logout",
     authAccess: true,
     component: <Logout />,
-    order: 6,
+    order: 8,
   },
   
 ];

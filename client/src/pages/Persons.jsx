@@ -1,17 +1,19 @@
-import employeesService from "../services/employees";
+import personsService from "../services/persons";
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import TextField from "@mui/material/TextField";
-const Employees = () => {
-  const [employees, setEmployees] = useState(false);
+import Typography from "@mui/material/Typography";
+
+import Button from "@mui/material/Button";
+
+const Persons = () => {
+  const [persons, setPersons] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const getAll = async () => {
-    setEmployees(await employeesService.getAll());
+    setPersons(await personsService.getAll());
     setLoading(false);
   };
 
@@ -20,7 +22,32 @@ const Employees = () => {
     getAll();
   }, []);
 
-  const handleSubmit = (event) => {
+  const PersonList = () => {
+    return (
+      <Grid container key="personsList" spacing={2}>
+        {loading
+          ? "loading"
+          : persons
+          ? persons.map((item) => {
+              return (
+                <Grid key={item.id} size={6}>
+                  <div>
+                    Name: {item.first_name} {item.middle_name} {item.last_name}{" "}
+                    {item.suffix}
+                  </div>
+                  <div>Gender: {item.gender} </div>
+                  <div>Contact: {item.contact} </div>
+                  <div>Email: {item.email} </div>
+                  <div>Address: {item.address} </div>
+                </Grid>
+              );
+            })
+          : "Persons not found!"}
+      </Grid>
+    );
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
 
@@ -35,15 +62,17 @@ const Employees = () => {
       gender: "F",
     }
 
-    console.log("submitting person")
+    console.log("submitting person", personRequestBody)
 
+    await personsService.create(personRequestBody)
+    getAll()
   }
 
-  const EmployeeAdd = () => {
+  const PersonAdd = () => {
     return (
-      <Container key="employeeAdd">
+      <Container key="personAdd">
         <Box>
-          <Typography>Add Employee</Typography>
+          <Typography>Add Person</Typography>
         </Box>
         <Box
           component="form"
@@ -53,25 +82,28 @@ const Employees = () => {
         >
           <Box>
             <TextField
-              id="firstName"
-              name="firstName"
+              id="first_name"
+              name="first_name"
               label="First Name"
               margin="normal"
-              autoComplete="firstName"
             />
             <TextField
-              id="middleName"
-              name="middleName"
+              id="middle_name"
+              name="middle_name"
               label="Middle Name"
               margin="normal"
-              autoComplete="middleName"
             />
             <TextField
-              id="lastName"
-              name="lastName"
+              id="last_name"
+              name="last_name"
               label="Last Name"
               margin="normal"
-              autoComplete="lastName"
+            />
+            <TextField
+              id="suffix"
+              name="suffix"
+              label="Suffix"
+              margin="normal"
             />
           </Box>
           <Box>
@@ -95,38 +127,25 @@ const Employees = () => {
           </Box>
         </Box>
       </Container>
-    )
-  }
 
-  const EmployeeList = () => {
-    return (
-      <Grid key="employeeList">
-        {loading
-          ? "loading"
-          : employees
-          ? employees.map((item) => {
-              return (
-                  <Grid key={item.id}>
-                    <div>
-                      Name: {item.person.first_name} {item.person.middle_name}{" "}
-                      {item.person.last_name} {item.person.suffix}
-                    </div>
-                    <div>Position: {item.position.title}</div>
-                  </Grid>
-              );
-            })
-          : "Employees not found!"}
-      </Grid>
     )
   }
 
   return (
     <>
-      <h1>Employee</h1>
-      <EmployeeAdd />
-      <EmployeeList />
+      <h1>Persons</h1>
+      <Grid container spacing={2}>
+        <Grid size={4}>
+        <PersonAdd />
+        </Grid>
+        <Grid size={8}>
+        <PersonList />
+        </Grid>
+      </Grid>
+      
+      
     </>
   );
 };
 
-export default Employees;
+export default Persons;

@@ -24,9 +24,9 @@ const Users = () => {
             <>
             <Grid key={item.username}>
               <div>Name: {item.employee.person.first_name} {item.employee.person.middle_name} {item.employee.person.last_name} {item.employee.person.suffix}</div>
+              <div>Position: {item.employee.position.title}</div>
               <div>Username: {item.username}</div>
-              <div>Email: {item.employee.person.email}</div>
-              <div>Access: {item.access.title}</div>
+              <div>Access Level: {item.access.title}</div>
             </Grid>
             </>
           )
