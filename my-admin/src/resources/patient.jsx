@@ -12,58 +12,56 @@ import {
   DateField,
   EmailField,
   required,
+  NumberField,
+  SelectField,
+  NumberInput,
   SelectInput,
-  Labeled
+  Labeled,
+  FunctionField,
+  ReferenceInput,
+  AutocompleteInput,
+  useRecordContext
 } from "react-admin";
 import Grid from "@mui/material/Grid";
-const PersonList = () => {
+const PatientList = () => {
   return (
     <List exporter={false}>
       <DataTable>
-        <DataTable.Col source="first_name" />
-        <DataTable.Col source="middle_name" />
-        <DataTable.Col source="last_name" />
-        <DataTable.Col source="suffix" />
-        <DataTable.Col source="address" />
-        <DataTable.Col source="contact" />
-        <DataTable.Col source="gender" />
-        <DataTable.Col source="birth_date" field={DateField} />
-        <DataTable.Col source="email" field={EmailField} />
-      </DataTable>
+      <DataTable.Col label="Name">
+      <FunctionField
+                render={record => `${record.employee.person.first_name} ${record.employee.person.middle_name} ${record.employee.person.last_name} ${record.employee.person.suffix}`}
+        />
+      </DataTable.Col>
+        </DataTable>
     </List>
   );
 };
 
-const PersonShow = () => (
-  <Show>
-    <SimpleShowLayout>
-    <Grid container sx={{ width: "100%" }} spacing={1}>
-    <Grid size={{ xs: 12, sm: 4 }}><Labeled><TextField source="first_name" /></Labeled></Grid>
-    <Grid size={{ xs: 12, sm: 4 }}><Labeled><TextField source="middle_name" /></Labeled></Grid>
-    <Grid size={{ xs: 12, sm: 4 }}><Labeled><TextField source="last_name" /></Labeled></Grid>
-    <Grid size={{ xs: 12, sm: 4 }}><Labeled><TextField source="suffix" /></Labeled></Grid>
-    <Grid size={{ xs: 12, sm: 4 }}><Labeled><TextField source="birth_date" /></Labeled></Grid>
-    <Grid size={{ xs: 12, sm: 4 }}><Labeled><TextField source="gender" /></Labeled></Grid>
-    <Grid size={{ xs: 12, sm: 4 }}><Labeled><TextField source="address" /></Labeled></Grid>
-    <Grid size={{ xs: 12, sm: 4 }}><Labeled><TextField source="contact" /></Labeled></Grid>
-    <Grid size={{ xs: 12, sm: 4 }}><Labeled><TextField source="email" /></Labeled></Grid>
-    </Grid>
-    </SimpleShowLayout>
-  </Show>
+const PatientShow = () => (
+
+  
+  <Show authLoading={<p>Checking for permissions...</p>}>
+  <SimpleShowLayout>
+      <TextField source="username" />
+      <DateField source="employee.hire_date" />
+      <TextField source="employee.person" />
+      <TextField source="access.title" />
+  </SimpleShowLayout>
+</Show>
 );
 
-const PersonEdit = () => (
+const PatientEdit = () => (
   <Edit>
     <SimpleForm>
       <Grid container sx={{ width: "100%" }} spacing={1}>
         <Grid size={{ xs: 12, sm: 4 }}>
-          <TextInput source="first_name" validate={[required()]}/>
+          <TextInput source="first_name" />
         </Grid>
         <Grid size={{ xs: 12, sm: 4 }}>
-          <TextInput source="middle_name" validate={[required()]}/>
+          <TextInput source="middle_name" />
         </Grid>
         <Grid size={{ xs: 12, sm: 4 }}>
-          <TextInput source="last_name"validate={[required()]} />
+          <TextInput source="last_name" />
         </Grid>
         <Grid size={{ xs: 12, sm: 4 }}>
           <SelectInput
@@ -79,7 +77,7 @@ const PersonEdit = () => (
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 4 }}>
-          <DateInput source="birth_date" validate={[required()]} />
+          <DateInput source="birth_date" />
         </Grid>
         <Grid size={{ xs: 12, sm: 4 }}>
           <SelectInput
@@ -88,14 +86,13 @@ const PersonEdit = () => (
               { id: "Male", name: "Male" },
               { id: "Female", name: "Female" },
             ]}
-            validate={[required()]}
           />
         </Grid>
         <Grid size={{ xs: 12, sm: 4 }}>
-          <TextInput source="address" validate={[required()]}/>
+          <TextInput source="address" />
         </Grid>
         <Grid size={{ xs: 12, sm: 4 }}>
-          <TextInput source="contact" validate={[required()]}/>
+          <TextInput source="contact" />
         </Grid>
         <Grid size={{ xs: 12, sm: 4 }}>
           <TextInput source="email" />
@@ -105,7 +102,7 @@ const PersonEdit = () => (
   </Edit>
 );
 
-const PersonCreate = () => (
+const PatientCreate = () => (
   <Create>
     <SimpleForm sanitizeEmptyValues>
     <Grid container sx={{ width: "100%" }} spacing={1}>
@@ -140,4 +137,4 @@ const PersonCreate = () => (
   </Create>
 );
 
-export { PersonList, PersonShow, PersonEdit, PersonCreate };
+export { PatientList, PatientShow, PatientEdit, PatientCreate };

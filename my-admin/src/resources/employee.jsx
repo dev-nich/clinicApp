@@ -5,31 +5,33 @@ import {
   Show,
   Edit,
   SimpleForm,
-  TextInput,
   DateInput,
   List,
   DataTable,
   DateField,
-  EmailField,
   required,
   NumberField,
-  SelectField,
   NumberInput,
-  SelectInput,
-  BooleanField,
   BooleanInput,
   ReferenceInput,
-  AutocompleteInput
+  AutocompleteInput,
+  ReferenceField,
 } from "react-admin";
 const EmployeeList = () => {
   return (
     <List>
       <DataTable>
-        <DataTable.Col source="person.first_name" label="First Name"/>
-        <DataTable.Col source="person.middle_name" label="Middle Name" />
-        <DataTable.Col source="person.last_name" label="Last Name" />
-        <DataTable.Col source="person.suffix" label="Suffix"/>
-        <DataTable.Col source="position.title" label="Position" />
+        <DataTable.Col label="Employee">
+          <ReferenceField source="person" reference="persons">
+            <TextField source="first_name" /> <TextField source="middle_name" />{" "}
+            <TextField source="last_name" /> <TextField source="suffix" />{" "}
+          </ReferenceField>
+        </DataTable.Col>
+        <DataTable.Col label="Position">
+          <ReferenceField source="position" reference="positions">
+            <TextField source="title" />
+          </ReferenceField>
+        </DataTable.Col>
       </DataTable>
     </List>
   );
@@ -38,47 +40,68 @@ const EmployeeList = () => {
 const EmployeeShow = () => (
   <Show>
     <SimpleShowLayout>
-    <TextField source="person.first_name" label="First Name" />
-      <TextField source="person.middle_name" label="Middle Name" />
-      <TextField source="person.last_name" label="Last Name" />
-      <TextField source="person.suffix" label="Suffix" />
-      <TextField source="position.title" label="Position"  />
+      <ReferenceField source="person" label="Employee" reference="persons">
+        <TextField source="first_name" /> <TextField source="middle_name" />{" "}
+        <TextField source="last_name" /> <TextField source="suffix" />{" "}
+      </ReferenceField>
+      <ReferenceField source="position" reference="positions">
+        <TextField source="title" />
+      </ReferenceField>
       <DateField source="hire_date" />
       <NumberField source="salary" />
-      <TextField source="is_active" label="Employee Active"/>
+      <TextField source="is_active" label="Employee Active" />
     </SimpleShowLayout>
   </Show>
 );
 
-const transformData = (data) => {
-   data.person = data.person.id
-   data.position = data.position.id
-
-  return data
-}
-
 const EmployeeEdit = () => (
-  <Edit transform={transformData}>
+  <Edit>
     <SimpleForm>
-      <DateInput source="hire_date" /> 
+      <ReferenceInput source="person" label="Employee" reference="persons">
+        <AutocompleteInput
+          disabled
+          label="Employee"
+          optionText={(person) => {
+            return `${person.first_name} ${person.middle_name} ${person.last_name} ${person.suffix}`;
+          }}
+        />
+      </ReferenceInput>
+      <ReferenceInput source="position" label="Position" reference="positions">
+        <AutocompleteInput
+          validate={required()}
+          optionText="title"
+          optionValue="id"
+        />
+      </ReferenceInput>
+      <DateInput source="hire_date" />
       <NumberInput source="salary" />
-      <BooleanInput source="is_active" /> 
-      <ReferenceInput source="person.id" label="Person" reference="persons">
-          <AutocompleteInput optionText={person => `${person.first_name} ${person.last_name}`}  />
-      </ReferenceInput>
-      <ReferenceInput source="position.id" label="Position" reference="positions">
-          <AutocompleteInput optionText="title" />
-      </ReferenceInput>
+      <BooleanInput source="is_active" />
     </SimpleForm>
   </Edit>
 );
 
 const EmployeeCreate = () => (
   <Create>
-    <SimpleForm sanitizeEmptyValues warnWhenUnsavedChanges>
-    <DateInput source="hire_date" /> 
-      <DateInput source="salary" />
-      <BooleanInput source="is_active" /> 
+    <SimpleForm sanitizeEmptyValues>
+    <ReferenceInput source="person" label="Employee" reference="persons">
+        <AutocompleteInput
+          validate={required()}
+          label="Employee"
+          optionText={(person) => {
+            return `${person.first_name} ${person.middle_name} ${person.last_name} ${person.suffix}`;
+          }}
+        />
+      </ReferenceInput>
+      <ReferenceInput source="position" label="Position" reference="positions">
+        <AutocompleteInput
+          validate={required()}
+          optionText="title"
+          optionValue="id"
+        />
+      </ReferenceInput>
+      <DateInput source="hire_date" validate={required()} />
+      <NumberInput source="salary" />
+      <BooleanInput source="is_active" />
     </SimpleForm>
   </Create>
 );
