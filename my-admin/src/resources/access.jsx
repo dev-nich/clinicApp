@@ -12,7 +12,7 @@ import {
 const AccessList = () => {
   return (
     <List exporter={false}>
-      <DataTable>
+      <DataTable bulkActionButtons={false}>
         <DataTable.Col source="title" />
         <DataTable.Col source="description" />
       </DataTable>

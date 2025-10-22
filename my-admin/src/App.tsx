@@ -21,19 +21,32 @@ import {
   EmployeeCreate,
 } from "./resources/employee";
 import {
-    PositionList,
-    PositionShow,
-    PositionEdit,
-    PositionCreate,
-  } from "./resources/position";
-  import {
-    AccessList,
-    AccessShow,
-    AccessEdit,
-    AccessCreate,
-  } from "./resources/access";
+  PositionList,
+  PositionShow,
+  PositionEdit,
+  PositionCreate,
+} from "./resources/position";
+import {
+  AccessList,
+  AccessShow,
+  AccessEdit,
+  AccessCreate,
+} from "./resources/access";
+import {
+  PatientList,
+  PatientShow,
+  PatientEdit,
+  PatientCreate,
+} from "./resources/patient";
+import {
+    AppointmentList,
+    AppointmentShow,
+    AppointmentEdit,
+    AppointmentCreate,
+  } from "./resources/appointment";
 import { UserList, UserShow, UserEdit, UserCreate } from "./resources/user";
 import Dashboard from "./pages/dashboard";
+import { createGunzip } from "zlib";
 export const App = () => (
   <Admin
     dataProvider={simpleRestProvider("http://localhost:3001/api")}
@@ -75,6 +88,13 @@ export const App = () => (
       show={AccessShow}
       edit={AccessEdit}
       create={AccessCreate}
+    />
+    <Resource
+      name="patients"
+      list={PatientList}
+      show={PatientShow}
+      edit={PatientEdit}
+      create={PatientCreate}
     />
   </Admin>
 );

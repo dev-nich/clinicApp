@@ -16,16 +16,16 @@ import {
 const UserList = () => {
   return (
     <List exporter={false}>
-      <DataTable>
+      <DataTable  bulkActionButtons={false}>
         <DataTable.Col source="username" />
         <DataTable.Col label="Access">
-          <ReferenceField source="access" reference="access">
+          <ReferenceField source="access" reference="access" link={false}>
             <TextField source="title" />
           </ReferenceField>
         </DataTable.Col>
         <DataTable.Col label="Employee">
-          <ReferenceField source="employee" reference="employees">
-            <ReferenceField source="person" reference="persons">
+          <ReferenceField source="employee" reference="employees" link={false}>
+            <ReferenceField source="person" reference="persons" link={false}>
               <TextField source="first_name" />{" "}
               <TextField source="middle_name" />{" "}
               <TextField source="last_name" />{" "}
@@ -34,8 +34,8 @@ const UserList = () => {
           </ReferenceField>
         </DataTable.Col>
         <DataTable.Col label="Position">
-          <ReferenceField source="employee" reference="employees">
-            <ReferenceField source="position" reference="positions">
+          <ReferenceField source="employee" reference="employees" link={false}>
+            <ReferenceField source="position" reference="positions" link={false}>
               <TextField source="title" />
             </ReferenceField>
           </ReferenceField>
@@ -49,11 +49,11 @@ const UserShow = () => (
   <Show authLoading={<p>Checking for permissions...</p>}>
     <SimpleShowLayout>
       <TextField source="username" />
-      <ReferenceField source="access" reference="access">
+      <ReferenceField source="access" reference="access" link={false}>
         <TextField source="title" />
       </ReferenceField>
-      <ReferenceField source="employee" reference="employees">
-        <ReferenceField source="person" reference="persons">
+      <ReferenceField source="employee" reference="employees" link={false}>
+        <ReferenceField source="person" reference="persons" link={false}>
           <TextField source="first_name" /> <TextField source="middle_name" />{" "}
           <TextField source="last_name" /> <TextField source="suffix" />{" "}
         </ReferenceField>
@@ -75,7 +75,7 @@ const UserEdit = () => (
           optionValue="id"
         />
       </ReferenceInput>
-      <ReferenceInput source="employee" reference="employees" filter={{ "populate": "person" }}>
+      <ReferenceInput source="employee" reference="employees" filter={{ "populate": "person" }} link={false}>
           <AutocompleteInput
             label="Employee"
             disabled
@@ -95,14 +95,14 @@ const UserCreate = () => (
     <SimpleForm sanitizeEmptyValues>
       <TextInput source="username" validate={required()} />
       <TextInput source="password" validate={required()} />
-      <ReferenceInput source="access" label="Access" reference="access">
+      <ReferenceInput source="access" label="Access" reference="access" link={false}>
         <AutocompleteInput
           validate={required()}
           optionText="title"
           optionValue="id"
         />
       </ReferenceInput>
-      <ReferenceInput source="employee" reference="employees" filter={{ "populate": "person" }}>
+      <ReferenceInput source="employee" reference="employees" filter={{ "populate": "person" }} link={false}>
           <AutocompleteInput
             label="Employee"
             optionText={(employee) => {

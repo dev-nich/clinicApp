@@ -19,7 +19,7 @@ import Grid from "@mui/material/Grid";
 const PersonList = () => {
   return (
     <List exporter={false}>
-      <DataTable>
+      <DataTable  bulkActionButtons={false}>
         <DataTable.Col source="first_name" />
         <DataTable.Col source="middle_name" />
         <DataTable.Col source="last_name" />

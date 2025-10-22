@@ -20,84 +20,211 @@ import {
   FunctionField,
   ReferenceInput,
   AutocompleteInput,
-  useRecordContext
+  useRecordContext,
+  ReferenceField,
+  ArrayField,
+  SingleFieldList,
+  ChipField,
+  ArrayInput,
+  SimpleFormIterator,
 } from "react-admin";
 import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 const PatientList = () => {
   return (
     <List exporter={false}>
-      <DataTable>
-      <DataTable.Col label="Name">
-      <FunctionField
-                render={record => `${record.employee.person.first_name} ${record.employee.person.middle_name} ${record.employee.person.last_name} ${record.employee.person.suffix}`}
-        />
-      </DataTable.Col>
-        </DataTable>
+      <DataTable bulkActionButtons={false}>
+        <DataTable.Col label="Patient">
+          <ReferenceField source="person" reference="persons" link={false}>
+            <TextField source="first_name" /> <TextField source="middle_name" />{" "}
+            <TextField source="last_name" /> <TextField source="suffix" />
+          </ReferenceField>
+        </DataTable.Col>
+      </DataTable>
     </List>
   );
 };
 
 const PatientShow = () => (
+  <Show>
+    <SimpleShowLayout>
+      <ReferenceField
+        source="person"
+        label="Name"
+        reference="persons"
+        link={false}
+      >
+        <TextField source="first_name" /> <TextField source="middle_name" />{" "}
+        <TextField source="suffix" />
+      </ReferenceField>
 
-  
-  <Show authLoading={<p>Checking for permissions...</p>}>
-  <SimpleShowLayout>
-      <TextField source="username" />
-      <DateField source="employee.hire_date" />
-      <TextField source="employee.person" />
-      <TextField source="access.title" />
-  </SimpleShowLayout>
-</Show>
+      <Labeled>
+        <ArrayField source="medications">
+          <DataTable bulkActionButtons={false} empty={"-"}>
+            <DataTable.Col source="description">
+              <TextField source="description" />
+            </DataTable.Col>
+            <DataTable.Col source="start_date">
+              <DateField source="start_date" />
+            </DataTable.Col>
+            <DataTable.Col source="end_date">
+              <DateField source="end_date" />
+            </DataTable.Col>
+          </DataTable>
+        </ArrayField>
+      </Labeled>
+
+      <Labeled>
+        <ArrayField source="allergies">
+          <DataTable bulkActionButtons={false} empty={"-"}>
+            <DataTable.Col source="description">
+              <TextField source="description" />
+            </DataTable.Col>
+            <DataTable.Col source="start_date">
+              <DateField source="start_date" />
+            </DataTable.Col>
+            <DataTable.Col source="end_date">
+              <DateField source="end_date" />
+            </DataTable.Col>
+          </DataTable>
+        </ArrayField>
+      </Labeled>
+
+      <Labeled>
+        <ArrayField source="medical_history">
+          <DataTable bulkActionButtons={false} empty={"-"}>
+            <DataTable.Col source="description">
+              <TextField source="description" />
+            </DataTable.Col>
+            <DataTable.Col source="start_date">
+              <DateField source="start_date" />
+            </DataTable.Col>
+            <DataTable.Col source="end_date">
+              <DateField source="end_date" />
+            </DataTable.Col>
+          </DataTable>
+        </ArrayField>
+      </Labeled>
+
+      <Labeled>
+        <ArrayField source="family_history" >
+          <DataTable bulkActionButtons={false} empty={"-"} >
+            <DataTable.Col source="description">
+              <TextField source="description" />
+            </DataTable.Col>
+            <DataTable.Col source="start_date">
+              <DateField source="start_date" />
+            </DataTable.Col>
+            <DataTable.Col source="end_date">
+              <DateField source="end_date" />
+            </DataTable.Col>
+          </DataTable>
+        </ArrayField>
+      </Labeled>
+    </SimpleShowLayout>
+  </Show>
 );
 
 const PatientEdit = () => (
   <Edit>
-    <SimpleForm>
-      <Grid container sx={{ width: "100%" }} spacing={1}>
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <TextInput source="first_name" />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <TextInput source="middle_name" />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <TextInput source="last_name" />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <SelectInput
-            source="suffix"
-            choices={[
-              { id: " ", name: "None" },
-              { id: "Sr", name: "Sr" },
-              { id: "Jr", name: "Jr" },
-              { id: "III", name: "III" },
-              { id: "IV", name: "IV" },
-              { id: "V", name: "V" },
-            ]}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <DateInput source="birth_date" />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <SelectInput
-            source="gender"
-            choices={[
-              { id: "Male", name: "Male" },
-              { id: "Female", name: "Female" },
-            ]}
-          />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <TextInput source="address" />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <TextInput source="contact" />
-        </Grid>
-        <Grid size={{ xs: 12, sm: 4 }}>
-          <TextInput source="email" />
-        </Grid>
-      </Grid>
+    <SimpleForm sanitizeEmptyValues>
+      <ReferenceInput
+        source="person"
+        label="Patient"
+        reference="persons"
+        link={false}
+      >
+        <AutocompleteInput
+        disabled
+          validate={required()}
+          label="Patient"
+          optionText={(person) => {
+            return `${person.first_name} ${person.middle_name} ${person.last_name} ${person.suffix}`;
+          }}
+        />
+      </ReferenceInput>
+
+      <Box
+        component="section"
+        sx={{ m: 2, p: 1, border: "1px dashed grey", width: "90%" }}
+      >
+        <ArrayInput source="medications">
+          <SimpleFormIterator>
+            <Grid container sx={{ width: "100%" }} spacing={1}>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <TextInput source="description" validate={[required()]} />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="start_date" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="end_date" />
+              </Grid>
+            </Grid>
+          </SimpleFormIterator>
+        </ArrayInput>
+      </Box>
+      <Box
+        component="section"
+        sx={{ m: 2, p: 1, border: "1px dashed grey", width: "90%" }}
+      >
+        <ArrayInput source="allergies">
+          <SimpleFormIterator>
+            <Grid container sx={{ width: "100%" }} spacing={1}>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <TextInput source="description" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="start_date" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="end_date" />
+              </Grid>
+            </Grid>
+          </SimpleFormIterator>
+        </ArrayInput>
+      </Box>
+      <Box
+        component="section"
+        sx={{ m: 2, p: 1, border: "1px dashed grey", width: "90%" }}
+      >
+        <ArrayInput source="medical_history">
+          <SimpleFormIterator>
+            <Grid container sx={{ width: "100%" }} spacing={1}>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <TextInput source="description" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="start_date" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="end_date" />
+              </Grid>
+            </Grid>
+          </SimpleFormIterator>
+        </ArrayInput>
+      </Box>
+      <Box
+        component="section"
+        sx={{ m: 2, p: 1, border: "1px dashed grey", width: "90%" }}
+      >
+        <ArrayInput source="family_history">
+          <SimpleFormIterator>
+            <Grid container sx={{ width: "100%" }} spacing={1}>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <TextInput source="description" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="start_date" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="end_date" />
+              </Grid>
+            </Grid>
+          </SimpleFormIterator>
+        </ArrayInput>
+      </Box>
     </SimpleForm>
   </Edit>
 );
@@ -105,34 +232,101 @@ const PatientEdit = () => (
 const PatientCreate = () => (
   <Create>
     <SimpleForm sanitizeEmptyValues>
-    <Grid container sx={{ width: "100%" }} spacing={1}>
+      <ReferenceInput
+        source="person"
+        label="Patient"
+        reference="persons"
+        link={false}
+      >
+        <AutocompleteInput
+          validate={required()}
+          label="Patient"
+          optionText={(person) => {
+            return `${person.first_name} ${person.middle_name} ${person.last_name} ${person.suffix}`;
+          }}
+        />
+      </ReferenceInput>
 
-        <Grid size={{ xs: 12, sm: 4 }}><TextInput source="first_name" validate={[required()]} /></Grid>
-        <Grid size={{ xs: 12, sm: 4 }}><TextInput source="middle_name" validate={[required()]} /></Grid>
-        <Grid size={{ xs: 12, sm: 4 }}><TextInput source="last_name" validate={[required()]} /></Grid>
-        <Grid size={{ xs: 12, sm: 4 }}><SelectInput
-        source="suffix"
-        choices={[
-          { id: " ", name: "None" },
-          { id: "Sr", name: "Sr" },
-          { id: "Jr", name: "Jr" },
-          { id: "III", name: "III" },
-          { id: "IV", name: "IV" },
-          { id: "V", name: "V" },
-        ]}
-      /></Grid>
-        <Grid size={{ xs: 12, sm: 4 }}><DateInput source="birth_date" validate={[required()]} /></Grid>
-        <Grid size={{ xs: 12, sm: 4 }}><SelectInput
-        source="gender"
-        choices={[
-          { id: "Male", name: "Male" },
-          { id: "Female", name: "Female" },
-        ]}
-      /></Grid>
-      <Grid size={{ xs: 12, sm: 4 }}><TextInput source="address" validate={[required()]} /></Grid>
-      <Grid size={{ xs: 12, sm: 4 }}><TextInput source="contact" validate={[required()]} /></Grid>
-      <Grid size={{ xs: 12, sm: 4 }}><TextInput source="email"/></Grid>
-    </Grid>
+      <Box
+        component="section"
+        sx={{ m: 2, p: 1, border: "1px dashed grey", width: "90%" }}
+      >
+        <ArrayInput source="medications">
+          <SimpleFormIterator>
+            <Grid container sx={{ width: "100%" }} spacing={1}>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <TextInput source="description" validate={[required()]} />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="start_date" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="end_date" />
+              </Grid>
+            </Grid>
+          </SimpleFormIterator>
+        </ArrayInput>
+      </Box>
+      <Box
+        component="section"
+        sx={{ m: 2, p: 1, border: "1px dashed grey", width: "90%" }}
+      >
+        <ArrayInput source="allergies">
+          <SimpleFormIterator>
+            <Grid container sx={{ width: "100%" }} spacing={1}>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <TextInput source="description" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="start_date" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="end_date" />
+              </Grid>
+            </Grid>
+          </SimpleFormIterator>
+        </ArrayInput>
+      </Box>
+      <Box
+        component="section"
+        sx={{ m: 2, p: 1, border: "1px dashed grey", width: "90%" }}
+      >
+        <ArrayInput source="medical_history">
+          <SimpleFormIterator>
+            <Grid container sx={{ width: "100%" }} spacing={1}>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <TextInput source="description" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="start_date" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="end_date" />
+              </Grid>
+            </Grid>
+          </SimpleFormIterator>
+        </ArrayInput>
+      </Box>
+      <Box
+        component="section"
+        sx={{ m: 2, p: 1, border: "1px dashed grey", width: "90%" }}
+      >
+        <ArrayInput source="family_history">
+          <SimpleFormIterator>
+            <Grid container sx={{ width: "100%" }} spacing={1}>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <TextInput source="description" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="start_date" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 4 }}>
+                <DateInput source="end_date" />
+              </Grid>
+            </Grid>
+          </SimpleFormIterator>
+        </ArrayInput>
+      </Box>
     </SimpleForm>
   </Create>
 );
