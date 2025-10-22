@@ -11,26 +11,26 @@ mongoose.connect(url).catch((error) => {
 
 const medicationsSchema = mongoose.Schema({
   description: { type: String, required: true },
-  date_started: { type: Date},
-  date_ended: { type: Date},
+  start_date: { type: Date},
+  end_date: { type: Date},
 });
 
 const allergiesSchema = mongoose.Schema({
   description: { type: String, required: true },
-  date_started: { type: Date},
-  date_ended: { type: Date},
+  start_date: { type: Date},
+  end_date: { type: Date},
 });
 
 const medicalHistorySchema = mongoose.Schema({
   description: { type: String, required: true },
-  date_started: { type: Date},
-  date_ended: { type: Date},
+  start_date: { type: Date},
+  end_date: { type: Date},
 });
 
 const familyHistorySchema = mongoose.Schema({
   description: { type: String, required: true },
-  date_started: { type: Date},
-  date_ended: { type: Date},
+  start_date: { type: Date},
+  end_date: { type: Date},
 });
 
 const schema = mongoose.Schema({

@@ -2,8 +2,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const config = require("../utils/config");
 const router = require("express").Router();
-const Model = require("../models/patient");
-const Person = require("../models/person");
+const Model = require("../models/appointment");
+const User = require("../models/user");
+const Patient = require("../models/person");
 const responses = require("../constants/responses");
 
 router.get("/", async (request, response) => {
@@ -20,7 +21,6 @@ router.get("/:id", async (request, response) => {
 
   const result = await Model.find({ _id: id })
   if (result) {
-    console.log(result)
     result[0].id = result[0]._id.   toString()
     response.json(result[0]);
   } else {
@@ -38,11 +38,17 @@ router.post("/", async (request, response) => {
     const user = await User.findById(decodedToken.id);
   }
 
-  const isPersonExist = await Person.findOne({_id:body.person})
+  const isPatientExist = await Patient.findOne({_id:body.patient})
+  const isUserExist = await User.findOne({_id:body.created_by})
 
-  if(isPersonExist === null){
+  if(isPatientExist === null){
     return response.status(400).json({ error: responses.ERR_PERSON_INVALID })
   }
+
+  if(isUserExist === null){
+    return response.status(400).json({ error: responses.ERR_POSITION_INVALID })
+  }
+
 
   const item = new Model(body);
   const savedItem = await item.save();

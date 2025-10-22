@@ -9,46 +9,35 @@ mongoose.connect(url).catch((error) => {
   logger.error("error connecting to MongoDB:", error.message);
 });
 
+
 const schema = mongoose.Schema({
-  first_name: {
-    type: String,
+  patient: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Patient",
     required: true,
   },
-  middle_name: {
-    type: String,
-    required: true,
-  },
-  last_name: {
-    type: String,
-    required: true,
-  },
-  suffix: {
-    type: String,
-    default: " ",
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
-  },
-  contact: {
-    type: String,
-    required: true,
-  },
-  gender: {
-    type: String,
-    required: true,
-  },
-  birth_date: {
+  appointment_date:{
     type: Date,
     required: true,
   },
-  email: {
+  details: {
     type: String,
+    required: true,
   },
+  type: {
+    type: String,
+    required: true,
+  },
+  created_at: {
+    type: Date,
+    required: true,
+  },
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  }
 });
-
-schema.index({ first_name: 1, middle_name: 1, last_name: 1, suffix: 1 }, { unique: true })
 
 schema.set("toJSON", {
   transform: (document, returnedObject) => {
@@ -58,4 +47,4 @@ schema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("Person", schema);
+module.exports = mongoose.model("Appointment", schema);
