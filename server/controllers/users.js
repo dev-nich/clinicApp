@@ -5,21 +5,6 @@ const responses = require("../constants/responses");
 
 router.get("/", async (request, response) => {
   const collection = await Model.find({})
-    .populate({
-      path: "employee",
-      populate: {
-        path: "position",
-        model: "Position",
-      },
-    })
-    .populate({
-      path: "employee",
-      populate: {
-        path: "person",
-        model: "Person",
-      },
-    })
-    .populate("access");
     response.setHeader("X-Total-Count","10")
     response.setHeader("Access-Control-Expose-Headers","Content-Range")
     response.setHeader("Content-Range","bytes: 0-9/*")
@@ -30,21 +15,10 @@ router.get("/:id", async (request, response) => {
   const id = request.params.id.trim();
 
   const result = await Model.find({ _id: id })
-    .populate({
-      path: "employee",
-      populate: {
-        path: "person",
-        model: "Person",
-      },
-      populate: {
-        path: "position",
-        model: "Position",
-      },
-    })
-    .populate("access");
 
   if (result) {
-    response.json(result);
+    result[0].id = result[0]._id.toString()
+    response.json(result[0]);
   } else {
     response.status(404).end();
   }

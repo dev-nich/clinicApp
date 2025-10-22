@@ -9,12 +9,40 @@ mongoose.connect(url).catch((error) => {
   logger.error("error connecting to MongoDB:", error.message);
 });
 
+const medicationsSchema = mongoose.Schema({
+  description: { type: String, required: true },
+  date_started: { type: Date},
+  date_ended: { type: Date},
+});
+
+const allergiesSchema = mongoose.Schema({
+  description: { type: String, required: true },
+  date_started: { type: Date},
+  date_ended: { type: Date},
+});
+
+const medicalHistorySchema = mongoose.Schema({
+  description: { type: String, required: true },
+  date_started: { type: Date},
+  date_ended: { type: Date},
+});
+
+const familyHistorySchema = mongoose.Schema({
+  description: { type: String, required: true },
+  date_started: { type: Date},
+  date_ended: { type: Date},
+});
+
 const schema = mongoose.Schema({
   person: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Person",
     required: true,
   },
+  medications: [medicationsSchema],
+  allergies: [allergiesSchema],
+  medical_history: [medicalHistorySchema],
+  family_history: [familyHistorySchema],
   appointments: [
     {
       type: mongoose.Schema.Types.ObjectId,

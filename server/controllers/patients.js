@@ -2,15 +2,13 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const config = require("../utils/config");
 const router = require("express").Router();
-const Model = require("../models/employee");
-const User = require("../models/user");
-const Position = require("../models/position");
+const Model = require("../models/patient");
 const Person = require("../models/person");
 const responses = require("../constants/responses");
 
 router.get("/", async (request, response) => {
-  const filter = request.query.filter ? JSON.parse(request.query.filter) : {}
-  const collection = await Model.find({}).populate(filter.populate ?? "")
+  const collection = await Model.find({})
+  
   response.setHeader("X-Total-Count","10")
   response.setHeader("Access-Control-Expose-Headers","Content-Range")
   response.setHeader("Content-Range","bytes: 0-9/*")
@@ -22,6 +20,7 @@ router.get("/:id", async (request, response) => {
 
   const result = await Model.find({ _id: id })
   if (result) {
+    console.log(result)
     result[0].id = result[0]._id.   toString()
     response.json(result[0]);
   } else {
@@ -40,16 +39,10 @@ router.post("/", async (request, response) => {
   }
 
   const isPersonExist = await Person.findOne({_id:body.person})
-  const isPositionExist = await Position.findOne({_id:body.position})
 
   if(isPersonExist === null){
     return response.status(400).json({ error: responses.ERR_PERSON_INVALID })
   }
-
-  if(isPositionExist === null){
-    return response.status(400).json({ error: responses.ERR_POSITION_INVALID })
-  }
-
 
   const item = new Model(body);
   const savedItem = await item.save();
