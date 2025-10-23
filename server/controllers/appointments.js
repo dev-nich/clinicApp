@@ -3,8 +3,8 @@ const bcrypt = require("bcrypt");
 const config = require("../utils/config");
 const router = require("express").Router();
 const Model = require("../models/appointment");
-const User = require("../models/user");
-const Patient = require("../models/person");
+const Employee = require("../models/employee");
+const Patient = require("../models/patient");
 const responses = require("../constants/responses");
 
 router.get("/", async (request, response) => {
@@ -21,7 +21,7 @@ router.get("/:id", async (request, response) => {
 
   const result = await Model.find({ _id: id })
   if (result) {
-    result[0].id = result[0]._id.   toString()
+    result[0].id = result[0]._id.toString()
     response.json(result[0]);
   } else {
     response.status(404).end();
@@ -39,14 +39,14 @@ router.post("/", async (request, response) => {
   }
 
   const isPatientExist = await Patient.findOne({_id:body.patient})
-  const isUserExist = await User.findOne({_id:body.created_by})
+  const isEmployeeExist = await Employee.findOne({_id:body.created_by})
 
   if(isPatientExist === null){
     return response.status(400).json({ error: responses.ERR_PERSON_INVALID })
   }
 
-  if(isUserExist === null){
-    return response.status(400).json({ error: responses.ERR_POSITION_INVALID })
+  if(isEmployeeExist === null){
+    return response.status(400).json({ error: responses.ERR_EMPLOYEE_INVALID })
   }
 
 

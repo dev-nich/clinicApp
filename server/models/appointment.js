@@ -24,9 +24,20 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
+  physician: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Employee",
+  },
   type: {
     type: String,
     required: true,
+  },
+  status: {
+    type: String,
+    required: true,
+  },
+  referral_details: {
+    type: String,
   },
   created_at: {
     type: Date,
@@ -34,7 +45,7 @@ const schema = mongoose.Schema({
   },
   created_by: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Employee",
     required: true,
   }
 });

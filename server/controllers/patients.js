@@ -21,7 +21,7 @@ router.get("/:id", async (request, response) => {
   const result = await Model.find({ _id: id })
   if (result) {
     console.log(result)
-    result[0].id = result[0]._id.   toString()
+    result[0].id = result[0]._id.toString()
     response.json(result[0]);
   } else {
     response.status(404).end();
