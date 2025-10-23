@@ -96,5 +96,12 @@ export const App = () => (
       edit={PatientEdit}
       create={PatientCreate}
     />
+    <Resource
+      name="appointments"
+      list={AppointmentList}
+      show={AppointmentShow}
+      edit={AppointmentEdit}
+      create={AppointmentCreate}
+    />
   </Admin>
 );
