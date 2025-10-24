@@ -5,6 +5,7 @@ import {
   ShowGuesser,
   EditGuesser,
   radiantLightTheme,
+  Authenticated
 } from "react-admin";
 import { Layout } from "./Layout";
 import simpleRestProvider from "ra-data-simple-rest";
@@ -46,13 +47,14 @@ import {
   } from "./resources/appointment";
 import { UserList, UserShow, UserEdit, UserCreate } from "./resources/user";
 import Dashboard from "./pages/dashboard";
-import { createGunzip } from "zlib";
+import authProvider from './security/authProvider';
 export const App = () => (
   <Admin
     dataProvider={simpleRestProvider("http://localhost:3001/api")}
     layout={Layout}
     dashboard={Dashboard}
     theme={radiantLightTheme}
+    authProvider={authProvider}
   >
     <Resource
       name="persons"

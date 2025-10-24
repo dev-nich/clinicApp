@@ -34,7 +34,7 @@ router.post("/", async (request, response) => {
 
   response
     .status(200)
-    .send({ token, username: user.username });
+    .send({ token, username: user.username, access: user.access });
 });
 
 module.exports = router;
