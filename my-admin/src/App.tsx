@@ -1,11 +1,7 @@
 import {
   Admin,
   Resource,
-  ListGuesser,
-  ShowGuesser,
-  EditGuesser,
   radiantLightTheme,
-  Authenticated
 } from "react-admin";
 import { Layout } from "./Layout";
 import simpleRestProvider from "ra-data-simple-rest";
@@ -48,6 +44,13 @@ import {
 import { UserList, UserShow, UserEdit, UserCreate } from "./resources/user";
 import Dashboard from "./pages/dashboard";
 import authProvider from './security/authProvider';
+import BroadcastOnPersonalTwoToneIcon from '@mui/icons-material/BroadcastOnPersonalTwoTone';
+import AdminPanelSettingsTwoToneIcon from '@mui/icons-material/AdminPanelSettingsTwoTone';
+import CalendarMonthTwoToneIcon from '@mui/icons-material/CalendarMonthTwoTone';
+import BadgeTwoToneIcon from '@mui/icons-material/BadgeTwoTone';
+import SupervisedUserCircleTwoToneIcon from '@mui/icons-material/SupervisedUserCircleTwoTone';
+import PeopleAltTwoToneIcon from '@mui/icons-material/PeopleAltTwoTone';
+import PersonalInjuryTwoToneIcon from '@mui/icons-material/PersonalInjuryTwoTone';
 export const App = () => (
   <Admin
     dataProvider={simpleRestProvider("http://localhost:3001/api")}
@@ -62,6 +65,7 @@ export const App = () => (
       show={PersonShow}
       edit={PersonEdit}
       create={PersonCreate}
+      icon={PeopleAltTwoToneIcon}
     />
     <Resource
       name="employees"
@@ -69,6 +73,7 @@ export const App = () => (
       show={EmployeeShow}
       edit={EmployeeEdit}
       create={EmployeeCreate}
+      icon={BadgeTwoToneIcon}
     />
     <Resource
       name="users"
@@ -76,6 +81,7 @@ export const App = () => (
       show={UserShow}
       edit={UserEdit}
       create={UserCreate}
+      icon={SupervisedUserCircleTwoToneIcon}
     />
     <Resource
       name="positions"
@@ -83,6 +89,7 @@ export const App = () => (
       show={PositionShow}
       edit={PositionEdit}
       create={PositionCreate}
+      icon={BroadcastOnPersonalTwoToneIcon}
     />
     <Resource
       name="access"
@@ -90,6 +97,7 @@ export const App = () => (
       show={AccessShow}
       edit={AccessEdit}
       create={AccessCreate}
+      icon={AdminPanelSettingsTwoToneIcon}
     />
     <Resource
       name="patients"
@@ -97,6 +105,7 @@ export const App = () => (
       show={PatientShow}
       edit={PatientEdit}
       create={PatientCreate}
+      icon={PersonalInjuryTwoToneIcon}
     />
     <Resource
       name="appointments"
@@ -104,6 +113,7 @@ export const App = () => (
       show={AppointmentShow}
       edit={AppointmentEdit}
       create={AppointmentCreate}
+      icon={CalendarMonthTwoToneIcon}
     />
   </Admin>
 );
