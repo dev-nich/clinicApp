@@ -51,9 +51,10 @@ import BadgeTwoToneIcon from '@mui/icons-material/BadgeTwoTone';
 import SupervisedUserCircleTwoToneIcon from '@mui/icons-material/SupervisedUserCircleTwoTone';
 import PeopleAltTwoToneIcon from '@mui/icons-material/PeopleAltTwoTone';
 import PersonalInjuryTwoToneIcon from '@mui/icons-material/PersonalInjuryTwoTone';
+
 export const App = () => (
   <Admin
-    dataProvider={simpleRestProvider("http://localhost:3001/api")}
+    dataProvider={simpleRestProvider(`${process.env.REACT_APP_BASE_URL}/api`)}
     layout={Layout}
     dashboard={Dashboard}
     theme={radiantLightTheme}
