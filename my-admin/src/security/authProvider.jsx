@@ -1,4 +1,4 @@
-const baseUrl = `${process.env.REACT_APP_BASE_URL}logintest`;
+const baseUrl = `${import.meta.env.VITE_API_URL}/login`;
 const authProvider = {
   login: ({ username, password }) => {
 
@@ -15,7 +15,6 @@ const authProvider = {
             return response.json();
         })
         .then(auth => {
-            console.log(auth.token)
             localStorage.setItem('token', auth.token);
             localStorage.setItem('username', auth.username);
             localStorage.setItem('access', auth.access);

@@ -29,7 +29,7 @@ app.use('/api/employees', employees)
 app.use('/api/patients', patients)
 app.use('/api/appointments', appointments)
 app.use('/api/users', users)
-app.use('/api/login', login)
+app.use('/login', login)
 app.use('/api/access', access)
 
 app.use(middleware.errorHandler)

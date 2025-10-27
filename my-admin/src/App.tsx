@@ -54,7 +54,7 @@ import PersonalInjuryTwoToneIcon from '@mui/icons-material/PersonalInjuryTwoTone
 
 export const App = () => (
   <Admin
-    dataProvider={simpleRestProvider(`${process.env.REACT_APP_BASE_URL}/api`)}
+    dataProvider={simpleRestProvider(`${import.meta.VITE_API_URL}/api`)}
     layout={Layout}
     dashboard={Dashboard}
     theme={radiantLightTheme}
