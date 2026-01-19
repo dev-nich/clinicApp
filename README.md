@@ -19,6 +19,7 @@ Web app for a local clinic
 6. Billing Statement
 7. Automated Notification on Follow up check-up
 8. Scheduled Notification on Clinic Availability
+9. CI/CD
 
 ## Frontend
 * ReactAdmin
