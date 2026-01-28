@@ -36,7 +36,7 @@ app.use('/api/access', access)
 
 app.use(middleware.errorHandler)
 
-cron.schedule("* * * * *", () => {
+cron.schedule("* 5 * * *", () => {
   console.log("Running health status...");
   cronJob.checkHealth();
 });
