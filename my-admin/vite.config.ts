@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     sourcemap: mode === "development",
+    outDir: "../server/dist"
   },
-  base: "./",
+  base: "./" 
 }));
