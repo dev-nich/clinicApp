@@ -2,6 +2,8 @@ const config = require("./utils/config");
 const express = require('express')
 const cors = require('cors')
 const app = express()
+const cron = require("node-cron");
+const cronJob = require("./utils/cron");
 
 if (config.ENV !== "live") {
     app.use(cors())
@@ -33,5 +35,10 @@ app.use('/login', login)
 app.use('/api/access', access)
 
 app.use(middleware.errorHandler)
+
+cron.schedule("* 12 * * *", () => {
+  console.log("Running health status...");
+  cronJob.checkHealth();
+});
 
 module.exports = app
