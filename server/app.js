@@ -2,8 +2,6 @@ const config = require("./utils/config");
 const express = require('express')
 const cors = require('cors')
 const app = express()
-const cron = require("node-cron");
-const cronJob = require("./utils/cron");
 
 if (config.ENV !== "live") {
     app.use(cors())
@@ -24,6 +22,7 @@ const appointments = require('./controllers/appointments')
 const users = require('./controllers/users')
 const login = require('./controllers/login')
 const access = require('./controllers/access')
+const health = require('./controllers/health')
 
 app.use('/api/persons', persons)
 app.use('/api/positions', positions)
@@ -33,12 +32,8 @@ app.use('/api/appointments', appointments)
 app.use('/api/users', users)
 app.use('/login', login)
 app.use('/api/access', access)
+app.use('/health', health)
 
 app.use(middleware.errorHandler)
-
-cron.schedule("* * * * *", () => {
-  console.log("Running health status...");
-  cronJob.checkHealth();
-});
 
 module.exports = app
