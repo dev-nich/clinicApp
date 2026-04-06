@@ -34,3 +34,11 @@ Web app for a local clinic
 
 
 [Deployed on render](https://clinicapp-l78g.onrender.com/#/login).
+
+#### Notes
+
+##### Server
+* npm run start
+
+##### React-admin
+* npm run dev

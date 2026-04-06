@@ -8,8 +8,13 @@ const SECRET = process.env.SECRET
 
 const ENV = process.env.NODE_ENV
 
+const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY
+const EMAIL = process.env.EMAIL
+
 module.exports = {
     MONGODB_URI,
     SECRET,
-    ENV
+    ENV,
+    SENDGRID_API_KEY,
+    EMAIL
 }
