@@ -41,6 +41,12 @@ import {
     AppointmentEdit,
     AppointmentCreate,
   } from "./resources/appointment";
+  import {
+    NotificationList,
+    NotificationShow,
+    NotificationEdit,
+    NotificationCreate,
+  } from "./resources/notification";
 import { UserList, UserShow, UserEdit, UserCreate } from "./resources/user";
 import Dashboard from "./pages/dashboard";
 import authProvider from './security/authProvider';
@@ -114,6 +120,14 @@ export const App = () => (
       show={AppointmentShow}
       edit={AppointmentEdit}
       create={AppointmentCreate}
+      icon={CalendarMonthTwoToneIcon}
+    />
+    <Resource
+      name="notifications"
+      list={NotificationList}
+      show={NotificationShow}
+      edit={NotificationEdit}
+      create={NotificationCreate}
       icon={CalendarMonthTwoToneIcon}
     />
   </Admin>
