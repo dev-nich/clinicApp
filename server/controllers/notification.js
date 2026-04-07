@@ -1,8 +1,20 @@
 const router = require("express").Router();
 const config = require("../utils/config");
+const Model = require("../models/notification");
 
+router.get("/:id", async (request, response) => {
+  const id = request.params.id.trim();
 
-router.post("/", async (request, response) => {
+  const result = await Model.find({ _id: id });
+  if (result) {
+    result[0].id = result[0]._id.toString()
+    response.json(result[0]);
+  } else {
+    response.status(404).end();
+  }
+});
+
+router.post("/send", async (request, response) => {
     console.log("Received notification request:", request.body);
     if(request.body === undefined) {
         return response.status(400).send("Missing required fields");

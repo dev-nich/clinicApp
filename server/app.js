@@ -34,7 +34,7 @@ app.use('/api/users', users)
 app.use('/login', login)
 app.use('/api/access', access)
 app.use('/health', health)
-app.use('/notification', notification)
+app.use('/api/notification', notification)
 
 app.use(middleware.errorHandler)
 
