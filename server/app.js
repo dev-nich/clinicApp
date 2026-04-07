@@ -23,7 +23,7 @@ const users = require('./controllers/users')
 const login = require('./controllers/login')
 const access = require('./controllers/access')
 const health = require('./controllers/health')
-const notification = require('./controllers/notification')
+const notifications = require('./controllers/notifications')
 
 app.use('/api/persons', persons)
 app.use('/api/positions', positions)
@@ -34,7 +34,7 @@ app.use('/api/users', users)
 app.use('/login', login)
 app.use('/api/access', access)
 app.use('/health', health)
-app.use('/api/notification', notification)
+app.use('/api/notifications', notifications)
 
 app.use(middleware.errorHandler)
 

@@ -7,7 +7,7 @@ const ERR_PERSON_INVALID = "person invalid";
 const ERR_POSITION_INVALID = "position invalid";
 const ERR_EMPLOYEE_INVALID = "employee invalid";
 const ERR_PASSWORD_INVALID = "password too short";
-
+const ERR_APPT_INVALID = "appointment invalid";
 module.exports = {
   ERR_VALUE_NOT_UNIQUE,
   ERR_ID_FORMAT,
@@ -17,5 +17,6 @@ module.exports = {
   ERR_PERSON_INVALID,
   ERR_PASSWORD_INVALID,
   ERR_POSITION_INVALID,
-  ERR_EMPLOYEE_INVALID
+  ERR_EMPLOYEE_INVALID,
+  ERR_APPT_INVALID
 };
