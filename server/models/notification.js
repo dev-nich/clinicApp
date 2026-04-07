@@ -35,6 +35,7 @@ const schema = mongoose.Schema({
   type: {
     type: String,
     enum: ["email", "sms"],
+    default: "email",
     required: true,
   },
   created_at: {

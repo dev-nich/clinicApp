@@ -26,6 +26,7 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import moment from "moment";
 const NotificationList = () => {
+  // TODO: Display appointment details in multiline format
   return (
     <List exporter={false}>
       <DataTable bulkActionButtons={false}>
@@ -54,6 +55,7 @@ const NotificationList = () => {
 };
 
 const NotificationShow = () => (
+  // TODO: Display appointment details in multiline format  
   <Show>
     <SimpleShowLayout>
       <ReferenceField source="appointment" reference="appointments" link={false}>
@@ -106,28 +108,7 @@ const NotificationCreate = () => (
         reference="appointments"
         link={false}
       >
-          <ReferenceInput
-          source="patient"
-          label="Patient"
-          reference="patients"
-          link={false}
-        >
-            <ReferenceInput
-            source="person"
-            label="Person"
-            reference="persons"
-            link={false}
-          >
-              <AutocompleteInput
-                validate={required()}
-                label="Person"
-                optionText={(person) => {
-                  console.log(patient);
-                  return `${person.first_name} ${person.middle_name} ${person.last_name} ${person.suffix}`;
-                }}
-              />
-          </ReferenceInput>
-        </ReferenceInput>
+        // TODO: Display appointment details here
       </ReferenceInput>
       <TextInput source="subject" />
       <TextInput source="text" />
@@ -135,8 +116,8 @@ const NotificationCreate = () => (
       <SelectInput
         source="type"
         choices={[
-          { id: "Email", name: "Email" },
-          { id: "SMS", name: "SMS" },
+          { id: "email", name: "Email" },
+          { id: "sms", name: "SMS" },
         ]}
       />
     </SimpleForm>
