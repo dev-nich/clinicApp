@@ -27,6 +27,24 @@ const schema = mongoose.Schema({
   html: {
     type: String,
   },
+  status: {
+    type: String,
+    enum: ["pending", "sent", "failed"],
+    default: "pending",
+  },
+  type: {
+    type: String,
+    enum: ["email", "sms"],
+    required: true,
+  },
+  created_at: {
+    type: Date,
+    default: Date.now,
+  },
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 schema.set("toJSON", {
