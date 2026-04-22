@@ -20,29 +20,39 @@ import {
   ReferenceField,
   ReferenceInput,
   AutocompleteInput,
-  FunctionField
+  FunctionField,
+  RichTextField
 } from "react-admin";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import moment from "moment";
+import { RichTextInput } from 'ra-input-rich-text';
+
+const notifCreateFilter = { 
+     path: 'patient',
+     populate: {
+       path: 'person',
+       model: 'Person'
+     } 
+  }
+
+
 const NotificationList = () => {
   // TODO: Display appointment details in multiline format
   return (
-    <List exporter={false}>
+    <List exporter={false} queryOptions={{ meta: { prefetch: ['author'] } }}>
       <DataTable bulkActionButtons={false}>
         <DataTable.Col source="appointment">
-          <ReferenceField source="appointment" reference="appointments" link={false}>
-            <FunctionField 
-              render={record => `${moment(record.appointment_date).format("L")} - `} 
-            />
-            <ReferenceField source="patient" reference="patients" link={false}>
-              <ReferenceField source="person" reference="persons" link={false}>
-                <TextField source="first_name" />
-              </ReferenceField>
-            </ReferenceField>
-            <FunctionField 
-              render={record => ` [${record.details}]`} 
-            />
+          <ReferenceField 
+            source="appointment" 
+            reference="appointments" 
+            // queryOptions={{ populate: notifCreateFilter }}
+            link={false}
+            >
+            {/* <FunctionField 
+              render={(record) => { console.log(record);
+                return `${moment(record.appointment_date).format("L")} - ${record.patient.person.first_name} - ${record.details}`}} 
+            /> */}
           </ReferenceField>
           
         </DataTable.Col>
@@ -81,7 +91,7 @@ const NotificationShow = () => (
           
         <TextField source="subject" />
         <TextField source="text" />
-        <TextField source="html" />
+        <RichTextField source="html" />
         <TextField source="status" />
         <TextField source="type" />
     </SimpleShowLayout>
@@ -93,7 +103,7 @@ const NotificationEdit = () => (
     <SimpleForm>
       <TextInput source="subject" />
       <TextInput source="text" />
-      <TextInput source="html" />
+      <RichTextInput source="html" />
       <TextInput source="type" />
     </SimpleForm>
   </Edit>
@@ -106,13 +116,19 @@ const NotificationCreate = () => (
         source="appointment"
         label="Appointment"
         reference="appointments"
+        filter={{ populate: notifCreateFilter }}
         link={false}
       >
-        // TODO: Display appointment details here
+        <AutocompleteInput
+          validate={required()}
+          label="Appointment"
+          optionText={(record) => {
+            return `${moment(record.appointment_date).format("L")} - ${record.patient} - ${record.details}`;
+          }}
+        />
       </ReferenceInput>
       <TextInput source="subject" />
-      <TextInput source="text" />
-      <TextInput source="html" />
+      <RichTextInput source="html" />
       <SelectInput
         source="type"
         choices={[

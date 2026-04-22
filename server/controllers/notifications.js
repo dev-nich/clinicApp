@@ -23,8 +23,6 @@ router.post("/", async (request, response) => {
     const user = await User.findById(decodedToken.id);
   }
 
-
-  console.log("Received notification request:", body);
   const isApptExist = await Appt.findOne({_id:body.appointment})
 
   if(isApptExist === null){

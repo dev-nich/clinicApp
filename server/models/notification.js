@@ -1,3 +1,4 @@
+import  
 const config = require("../utils/config");
 const logger = require("../utils/logger");
 const mongoose = require("mongoose");
@@ -47,6 +48,12 @@ const schema = mongoose.Schema({
     ref: "User",
   },
 });
+
+schema.pre("save", function(next){
+  // TODO: trigger notification here
+
+  next();
+})
 
 schema.set("toJSON", {
   transform: (document, returnedObject) => {
