@@ -14,7 +14,6 @@ router.get("/", async (request, response) => {
 
 router.post("/", async (request, response) => {
   const body = request.body;
-  console.log(config.ENV)
   if (config.ENV !== "test") {
     const decodedToken = jwt.verify(request.token, config.SECRET);
     if (!decodedToken.id) {
@@ -77,6 +76,52 @@ router.post("/send", async (request, response) => {
 
 
     response.status(200).send("Notification sent successfully");
+});
+
+router.put("/:id", async (request, response) => {
+    console.log("Received notification request:", request.body);
+
+    if(request.body === undefined) {
+        return response.status(400).send("Missing required fields");
+    }
+
+    const {to, subject, text, html, status} = request.body;
+
+    if(status && status === 'sending'){
+      const sgMail = require('@sendgrid/mail')
+    sgMail.setApiKey(config.SENDGRID_API_KEY)
+
+    const msg = {
+        to: to || config.EMAIL, 
+        from: config.EMAIL, 
+        subject: subject || 'Clinic is open for business!',
+        text: text || 'We are open for business! Please book your appointment now.',
+        html: html || 'We are open for business! Please book your appointment <strong>now.</strong>',
+    }
+
+    sgMail
+        .send(msg)
+        .then((response) => {
+            console.log(response[0].statusCode)
+    })
+    .catch((error) => {
+        console.error(error)
+    })
+
+
+     response.status(200).send("Notification sent successfully");
+    }else{
+       response.status(400).send("Bad Request");
+    }
+
+    const id = request.params.id;
+      const body = request.body;
+      const result = await Model.findOneAndUpdate({ _id: { $eq: id } }, body, {
+        new: true,
+      });
+      response.status(200).json(result);
+
+    
 });
 
 module.exports = router;

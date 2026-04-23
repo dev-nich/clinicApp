@@ -21,13 +21,16 @@ import {
   ReferenceInput,
   AutocompleteInput,
   FunctionField,
-  RichTextField
+  RichTextField,
+  Button
 } from "react-admin";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import moment from "moment";
 import { RichTextInput } from 'ra-input-rich-text';
-
+import SendIcon from '@mui/icons-material/Send';
+import { useCallback } from "react";
+import { useDataProvider, useRecordContext } from 'react-admin';
 const notifCreateFilter = { 
      path: 'patient',
      populate: {
@@ -36,6 +39,32 @@ const notifCreateFilter = {
      } 
   }
 
+ const SendNotificationButton = () => {
+  const record = useRecordContext();
+  const dataProvider = useDataProvider();
+  const handleSend = async () => {
+    try{
+      await dataProvider.update('notifications', {
+        id: record.id,
+        data: {
+          to: record.to,
+          subject: record.subject,
+          text: record.text,
+          html: record.html,
+          status: "sending",
+        }
+      });
+
+    }catch (error){
+      console.log(error)
+    }
+  };
+
+  return (<Button label={false} onClick={handleSend}>
+            <SendIcon style={{paddingRight:5}}/>Send Notification
+        </Button> )
+
+ }
 
 const NotificationList = () => {
   // TODO: Display appointment details in multiline format
@@ -94,6 +123,8 @@ const NotificationShow = () => (
         <RichTextField source="html" />
         <TextField source="status" />
         <TextField source="type" />
+        // TODO: remove label on Top
+        <SendNotificationButton />
     </SimpleShowLayout>
   </Show>
 );
