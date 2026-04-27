@@ -47,6 +47,24 @@ import {
     NotificationEdit,
     NotificationCreate,
   } from "./resources/notification";
+  import {
+    SupplierList,
+    SupplierShow,
+    SupplierEdit,
+    SupplierCreate,
+  } from "./resources/supplier";
+  import {
+    ProductList,
+    ProductShow,
+    ProductEdit,
+    ProductCreate,
+  } from "./resources/product";
+  import {
+    InventoryList,
+    InventoryShow,
+    InventoryEdit,
+    InventoryCreate,
+  } from "./resources/inventory";
 import { UserList, UserShow, UserEdit, UserCreate } from "./resources/user";
 import Dashboard from "./pages/dashboard";
 import authProvider from './security/authProvider';
@@ -57,7 +75,10 @@ import BadgeTwoToneIcon from '@mui/icons-material/BadgeTwoTone';
 import SupervisedUserCircleTwoToneIcon from '@mui/icons-material/SupervisedUserCircleTwoTone';
 import PeopleAltTwoToneIcon from '@mui/icons-material/PeopleAltTwoTone';
 import PersonalInjuryTwoToneIcon from '@mui/icons-material/PersonalInjuryTwoTone';
-import NotificationsIcon from '@mui/icons-material/Notifications';
+import NotificationsTwoToneIcon from '@mui/icons-material/NotificationsTwoTone';
+import Groups3TwoToneIcon from '@mui/icons-material/Groups3TwoTone';
+import VaccinesTwoToneIcon from "@mui/icons-material/VaccinesTwoTone";
+import MedicationTwoToneIcon  from "@mui/icons-material/MedicationTwoTone";
 
 export const App = () => (
   <Admin
@@ -129,7 +150,31 @@ export const App = () => (
       show={NotificationShow}
       edit={NotificationEdit}
       create={NotificationCreate}
-      icon={NotificationsIcon}
+      icon={NotificationsTwoToneIcon}
+    />
+    <Resource
+      name="suppliers"
+      list={SupplierList}
+      show={SupplierShow}
+      edit={SupplierEdit}
+      create={SupplierCreate}
+      icon={Groups3TwoToneIcon}
+    />
+    <Resource
+      name="products"
+      list={ProductList}
+      show={ProductShow}
+      edit={ProductEdit}
+      create={ProductCreate}
+      icon={VaccinesTwoToneIcon}
+    />
+    <Resource
+      name="inventories"
+      list={InventoryList}
+      show={InventoryShow}
+      edit={InventoryEdit}
+      create={InventoryCreate}
+      icon={MedicationTwoToneIcon}
     />
   </Admin>
 );

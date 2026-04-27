@@ -6,10 +6,9 @@ import {
 } from "react-admin";
 import Submenu from "./Submenu";
 import SettingsTwoToneIcon from "@mui/icons-material/SettingsTwoTone";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
 import LocalHospitalTwoToneIcon from "@mui/icons-material/LocalHospitalTwoTone";
 import GroupsTwoToneIcon from "@mui/icons-material/GroupsTwoTone";
-import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
+import MedicationTwoToneIcon from '@mui/icons-material/MedicationTwoTone';
 
 const MyMenu = () => (
   <Menu>
@@ -27,6 +26,11 @@ const MyMenu = () => (
     </Submenu>
     <Submenu text="HR" icon={<GroupsTwoToneIcon />}>
       <Menu.ResourceItem name="employees" />
+    </Submenu>
+    <Submenu text="Inventory" icon={<MedicationTwoToneIcon />}>
+      <Menu.ResourceItem name="inventories" />
+      <Menu.ResourceItem name="suppliers" />
+      <Menu.ResourceItem name="products" />
     </Submenu>
   </Menu>
 );
