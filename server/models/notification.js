@@ -38,6 +38,14 @@ const schema = mongoose.Schema({
     default: "email",
     required: true,
   },
+  scheduled_date: {
+    type: Date,
+    default: Date.now,
+  },
+  sent_date: {
+    type: Date,
+    default: null,
+  },
   created_at: {
     type: Date,
     default: Date.now,

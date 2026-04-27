@@ -30,7 +30,8 @@ import moment from "moment";
 import { RichTextInput } from 'ra-input-rich-text';
 import SendIcon from '@mui/icons-material/Send';
 import { useCallback } from "react";
-import { useDataProvider, useRecordContext } from 'react-admin';
+import { useDataProvider, useRecordContext, WithRecord } from 'react-admin';
+import { formatNotificationType, capitalize, formatDate } from "../utils/formatters";
 const notifCreateFilter = { 
      path: 'patient',
      populate: {
@@ -60,10 +61,15 @@ const notifCreateFilter = {
     }
   };
 
-  return (<Button label={false} onClick={handleSend}>
-            <SendIcon style={{paddingRight:5}}/>Send Notification
-        </Button> )
-
+  return (
+    <Button 
+      label={false} 
+      onClick={handleSend} 
+      disabled={record.status === "sent"}
+    >
+      <SendIcon style={{paddingRight:5}} />{`Send ${formatNotificationType(record.type)}`}
+    </Button>
+  )
  }
 
 const NotificationList = () => {
@@ -86,8 +92,18 @@ const NotificationList = () => {
           
         </DataTable.Col>
         <DataTable.Col source="subject" />
-        <DataTable.Col source="status" />
-        <DataTable.Col source="type" />
+        <DataTable.Col source="type" >
+          <WithRecord render={record => `${formatNotificationType(record.type)}`} />
+        </DataTable.Col>
+        <DataTable.Col source="scheduled_date" label="Schedule" >
+          <WithRecord render={record => `${formatDate(record.scheduled_date)}`} />
+        </DataTable.Col>
+        <DataTable.Col source="status" >
+          <WithRecord render={record => `${capitalize(record.status)}`} />
+        </DataTable.Col>
+        <DataTable.Col source="sent_date" label="Sent Date" >
+          <WithRecord render={record => `${formatDate(record.sent_date)}`} />
+        </DataTable.Col>
       </DataTable>
     </List>
   );
@@ -100,12 +116,12 @@ const NotificationShow = () => (
       <ReferenceField source="appointment" reference="appointments" link={false}>
         <FunctionField
           label="Date" 
-          render={record => `${moment(record.appointment_date).format("L")}`} 
+          render={record => `${formatDate(record.appointment_date)}`} 
         />
       </ReferenceField>
       <ReferenceField source="appointment" reference="appointments" link={false}>
         <FunctionField 
-          render={record => `${moment(record.appointment_date).format("L")}`} 
+          render={record => `${formatDate(record.appointment_date)}`} 
         />
         <ReferenceField source="patient" reference="patients" link={false}>
           <ReferenceField source="person" reference="persons" link={false}>
@@ -117,25 +133,49 @@ const NotificationShow = () => (
           render={record => `${record.details}`} 
         />
       </ReferenceField>
-          
-        <TextField source="subject" />
-        <TextField source="text" />
-        <RichTextField source="html" />
-        <TextField source="status" />
-        <TextField source="type" />
-        // TODO: remove label on Top
-        <SendNotificationButton />
+      <FunctionField 
+        label="Type" 
+        render={record => `${formatNotificationType(record.type)}`} 
+      />
+      <TextField source="subject" />
+      <TextField source="text" />
+      <RichTextField source="html" />
+      <FunctionField 
+        label="Created At" 
+        render={record => `${formatDate(record.created_at)}`} 
+      />
+      <FunctionField 
+        label="Scheduled On" 
+        render={record => `${formatDate(record.schedule_date)}`} 
+      />
+      <FunctionField 
+        label="Sent Date" 
+        render={record => `${formatDate(record.sent_date)}`}  
+      />
+      <FunctionField 
+        label="Status" 
+        render={record => `${capitalize(record.status)}`} 
+      />
+      <SendNotificationButton />
     </SimpleShowLayout>
   </Show>
 );
 
-const NotificationEdit = () => (
+const NotificationEdit = ({record}) => (
   <Edit>
     <SimpleForm>
       <TextInput source="subject" />
       <TextInput source="text" />
       <RichTextInput source="html" />
-      <TextInput source="type" />
+      <SelectInput
+        source="type"
+        choices={[
+          { id: "email", name: "Email" },
+          { id: "sms", name: "SMS" },
+        ]}
+      />
+      {/* TODO: capitalize  */}
+      <TextInput source="status" disabled={true}/>
     </SimpleForm>
   </Edit>
 );
@@ -152,7 +192,7 @@ const NotificationCreate = () => (
       >
         <AutocompleteInput
           validate={required()}
-          label="Appointment"
+          label="Appointment Details"
           optionText={(record) => {
             return `${moment(record.appointment_date).format("L")} - ${record.patient} - ${record.details}`;
           }}

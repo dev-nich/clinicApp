@@ -110,8 +110,6 @@ router.put("/:id", async (request, response) => {
 
 
      response.status(200).send("Notification sent successfully");
-    }else{
-       response.status(400).send("Bad Request");
     }
 
     const id = request.params.id;
