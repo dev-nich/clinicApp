@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const config = require("../utils/config");
 const router = require("express").Router();
-const Model = require("../models/inventories");
+const Model = require("../models/inventory");
 
 router.get("/", async (request, response) => {
   const collection = await Model.find({});

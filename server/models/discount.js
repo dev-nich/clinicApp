@@ -15,15 +15,17 @@ const schema = mongoose.Schema({
     required: true,
     unique: true,
   },
-  contact: {
+  description: {
     type: String,
+  },
+  value: {
+    type: Number,
     required: true,
   },
-  email: {
+  value_type: {
     type: String,
-  },
-  details: {
-    type: String,
+    required: true,
+    default: "value"
   },
 });
 
@@ -35,4 +37,4 @@ schema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("Suppliers", schema);
+module.exports = mongoose.model("Discount", schema);

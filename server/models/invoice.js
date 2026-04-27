@@ -9,29 +9,17 @@ mongoose.connect(url).catch((error) => {
   logger.error("error connecting to MongoDB:", error.message);
 });
 
-const attributesSchema = mongoose.Schema({
-  key: { type: String, required: true },
-  value: { type: String, required: true },
-});
-
 const schema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  description: {
-    type: String,
-  },
-  price: {
-    type: Number,
-  },
-  category: {
-    type: [String],
-  },
-  attributes: {
-    type: [attributesSchema],
-  },
+  appointment: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Appointment",
+    },
+  ],
+  discount: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Discount",
+    }]
 });
 
 schema.set("toJSON", {
@@ -42,4 +30,4 @@ schema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("Products", schema);
+module.exports = mongoose.model("Invoice", schema);

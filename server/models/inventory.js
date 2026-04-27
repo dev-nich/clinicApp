@@ -35,4 +35,4 @@ schema.set("toJSON", {
   },
 });
 
-module.exports = mongoose.model("Inventories", schema);
+module.exports = mongoose.model("Inventory", schema);
