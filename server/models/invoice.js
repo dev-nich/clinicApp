@@ -10,16 +10,23 @@ mongoose.connect(url).catch((error) => {
 });
 
 const schema = mongoose.Schema({
-  appointment: [
+  appointment:
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Appointment",
     },
-  ],
+  patient:
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Patient",
+    },
   discount: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Discount",
-    }]
+    }],
+  print_request: [
+    { type: Date }
+  ]
 });
 
 schema.set("toJSON", {

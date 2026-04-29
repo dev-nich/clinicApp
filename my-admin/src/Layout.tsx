@@ -9,6 +9,7 @@ import SettingsTwoToneIcon from "@mui/icons-material/SettingsTwoTone";
 import LocalHospitalTwoToneIcon from "@mui/icons-material/LocalHospitalTwoTone";
 import GroupsTwoToneIcon from "@mui/icons-material/GroupsTwoTone";
 import MedicationTwoToneIcon from '@mui/icons-material/MedicationTwoTone';
+import ReceiptLongTwoToneIcon from '@mui/icons-material/ReceiptLongTwoTone';
 
 const MyMenu = () => (
   <Menu>
@@ -31,6 +32,10 @@ const MyMenu = () => (
       <Menu.ResourceItem name="inventories" />
       <Menu.ResourceItem name="suppliers" />
       <Menu.ResourceItem name="products" />
+    </Submenu>
+    <Submenu text="Invoice" icon={<ReceiptLongTwoToneIcon />}>
+      <Menu.ResourceItem name="discounts" />
+      <Menu.ResourceItem name="invoices" />
     </Submenu>
   </Menu>
 );

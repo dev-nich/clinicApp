@@ -3,6 +3,8 @@ const bcrypt = require("bcrypt");
 const config = require("../utils/config");
 const router = require("express").Router();
 const Model = require("../models/invoice");
+const Patient = require("../models/patient");
+const Appt = require("../models/appointment");
 
 router.get("/", async (request, response) => {
   const collection = await Model.find({});
@@ -40,6 +42,23 @@ router.post("/", async (request, response) => {
     }
   }
 
+  const appt = await Appt.findById(body.appointment);
+
+  if(!appt){
+    return response
+        .status(400)
+        .json({ error: "apptId missing or not valid" });
+  }
+
+  const patient = await Patient.findById(appt.patient);
+  
+  if(!patient){
+    return response
+        .status(400)
+        .json({ error: "patientId missing or not valid" });
+  }
+
+  body.patient = patient.id
   const item = new Model(body);
   const savedItem = await item.save();
 

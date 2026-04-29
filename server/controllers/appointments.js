@@ -6,10 +6,25 @@ const Model = require("../models/appointment");
 const Employee = require("../models/employee");
 const Patient = require("../models/patient");
 const responses = require("../constants/responses");
+const customPopulateFilters = require("./utils/customPopulateFilters");
 
 router.get("/", async (request, response) => {
   const filter = request.query.filter ? JSON.parse(request.query.filter) : {}
-  const collection = await Model.find({}).populate(filter.populate ?? "")
+  let collection = null;
+  console.log(filter.populate)
+
+  console.log(typeof(filter.populate) )
+
+
+  if(filter.populate === 'names'){
+    collection = await Model.find({})
+    .populate(customPopulateFilters.PATIENT_NAME)
+    .populate(customPopulateFilters.PHYSICIAN_NAME);
+  }
+  else{
+    collection = await Model.find({}).populate(filter.populate ?? "");
+  }
+  
   response.setHeader("X-Total-Count","10")
   response.setHeader("Access-Control-Expose-Headers","Content-Range")
   response.setHeader("Content-Range","bytes: 0-9/*")

@@ -65,6 +65,18 @@ import {
     InventoryEdit,
     InventoryCreate,
   } from "./resources/inventory";
+  import {
+    DiscountList,
+    DiscountShow,
+    DiscountEdit,
+    DiscountCreate,
+  } from "./resources/discount";
+  import {
+    InvoiceList,
+    InvoiceShow,
+    InvoiceEdit,
+    InvoiceCreate,
+  } from "./resources/invoice";
 import { UserList, UserShow, UserEdit, UserCreate } from "./resources/user";
 import Dashboard from "./pages/dashboard";
 import authProvider from './security/authProvider';
@@ -79,6 +91,8 @@ import NotificationsTwoToneIcon from '@mui/icons-material/NotificationsTwoTone';
 import Groups3TwoToneIcon from '@mui/icons-material/Groups3TwoTone';
 import VaccinesTwoToneIcon from "@mui/icons-material/VaccinesTwoTone";
 import MedicationTwoToneIcon  from "@mui/icons-material/MedicationTwoTone";
+import PercentTwoToneIcon  from "@mui/icons-material/PercentTwoTone";
+import ReceiptLongTwoToneIcon  from "@mui/icons-material/ReceiptLongTwoTone";
 
 export const App = () => (
   <Admin
@@ -175,6 +189,22 @@ export const App = () => (
       edit={InventoryEdit}
       create={InventoryCreate}
       icon={MedicationTwoToneIcon}
+    />
+    <Resource
+      name="discounts"
+      list={DiscountList}
+      show={DiscountShow}
+      edit={DiscountEdit}
+      create={DiscountCreate}
+      icon={PercentTwoToneIcon}
+    />
+    <Resource
+      name="invoices"
+      list={InvoiceList}
+      show={InvoiceShow}
+      edit={InvoiceEdit}
+      create={InvoiceCreate}
+      icon={ReceiptLongTwoToneIcon}
     />
   </Admin>
 );

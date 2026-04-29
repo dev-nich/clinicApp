@@ -23,10 +23,27 @@ const formatDate = (date) => {
     }
 }
 
+const formatDiscount = (value, type) => {
+    return type === "percentage" ? `${value}%` : 
+    value.toLocaleString('en-PH', {style: 'currency',currency: 'PHP'});
+}
+
+const formatFullName = (record) => {
+    return `${record.first_name} ${record.middle_name} ${record.last_name} ${record.suffix}`
+}
+
+const formatApptTitle = (item) => {
+    return `[${formatDate(item.appointment_date)}]  ${formatFullName(item?.patient?.person)} | ${item.details}`;
+}
+
+
 
 
 export { 
     capitalize,
     formatNotificationType,
-    formatDate
+    formatDate,
+    formatDiscount,
+    formatFullName,
+    formatApptTitle
 }
