@@ -3,7 +3,6 @@ import { formatFullName } from "./formatters";
 // From `person`record
 const FullName = (label="") => {
   const record = useRecordContext();
-  console.log(record)
   return (
     <FunctionField
         label={label}
@@ -12,5 +11,11 @@ const FullName = (label="") => {
   )
 }
 
+// Helper component to check the record
+const RecordCheck = (label=null) => {
+  const record = useRecordContext();
+  console.log(label, record)
+}
 
-export { FullName }
+
+export { FullName, RecordCheck}

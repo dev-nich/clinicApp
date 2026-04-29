@@ -34,8 +34,11 @@ import { useWatch } from "react-hook-form";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { formatDiscount, formatDate, formatFullName, formatApptTitle } from "../utils/formatters";
-import { FullName } from "../utils/componentFormatters";
+import { FullName, RecordCheck } from "../utils/componentFormatters";
 import { Typography } from "@mui/material";
+import { ReferenceManyToManyField } from '@react-admin/ra-relationships';
+
+
 const PrintRequestField = () => {
   const record = useRecordContext();
   return (
@@ -80,21 +83,14 @@ const InvoiceList = () => {
   );
 };
 
-const TestField = () => {
-  const record = useRecordContext();
-  console.log("TEST", record)
-}
 const InvoiceShow = () => (
    <Show>
     <SimpleShowLayout>
-      <ReferenceManyField 
-    reference="appointments" 
-    filter={{ populate: "names" }} // Only show published comments
->
-<TestField />
-</ReferenceManyField>
+        <RecordCheck label={1} />
         <ReferenceField source="patient" reference="patients" link={false}>
+          <RecordCheck  label={2} />
           <ReferenceField source="person" reference="persons" link={false}>
+            <RecordCheck  label={3} />
             <FullName />
           </ReferenceField>
         </ReferenceField>
