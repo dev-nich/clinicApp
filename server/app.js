@@ -30,6 +30,7 @@ const suppliers = require('./controllers/suppliers')
 const services = require('./controllers/services')
 const invoices = require('./controllers/invoices')
 const discounts = require('./controllers/discounts')
+const tools = require('./controllers/tools')
 
 app.use('/api/persons', persons)
 app.use('/api/positions', positions)
@@ -47,6 +48,7 @@ app.use('/api/suppliers', suppliers)
 app.use('/api/services', services)
 app.use('/api/invoices', invoices)
 app.use('/api/discounts', discounts)
+app.use('/tools', tools)
 
 app.use(middleware.errorHandler)
 
