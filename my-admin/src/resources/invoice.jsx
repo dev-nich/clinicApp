@@ -36,7 +36,6 @@ import Box from "@mui/material/Box";
 import { formatDiscount, formatDate, formatFullName, formatApptTitle } from "../utils/formatters";
 import { FullName, RecordCheck } from "../utils/componentFormatters";
 import { Typography } from "@mui/material";
-import { ReferenceManyToManyField } from '@react-admin/ra-relationships';
 
 
 const PrintRequestField = () => {
