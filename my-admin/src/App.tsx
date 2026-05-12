@@ -77,6 +77,12 @@ import {
     InvoiceEdit,
     InvoiceCreate,
   } from "./resources/invoice";
+    import {
+    ServiceList,
+    ServiceShow,
+    ServiceEdit,
+    ServiceCreate,
+  } from "./resources/service";
 import { UserList, UserShow, UserEdit, UserCreate } from "./resources/user";
 import Dashboard from "./pages/dashboard";
 import authProvider from './security/authProvider';
@@ -93,6 +99,7 @@ import VaccinesTwoToneIcon from "@mui/icons-material/VaccinesTwoTone";
 import MedicationTwoToneIcon  from "@mui/icons-material/MedicationTwoTone";
 import PercentTwoToneIcon  from "@mui/icons-material/PercentTwoTone";
 import ReceiptLongTwoToneIcon  from "@mui/icons-material/ReceiptLongTwoTone";
+import BackHandTwoToneIcon from '@mui/icons-material/BackHandTwoTone';
 
 export const App = () => (
   <Admin
@@ -205,6 +212,14 @@ export const App = () => (
       edit={InvoiceEdit}
       create={InvoiceCreate}
       icon={ReceiptLongTwoToneIcon}
+    />
+    <Resource
+      name="services"
+      list={ServiceList}
+      show={ServiceShow}
+      edit={ServiceEdit}
+      create={ServiceCreate}
+      icon={BackHandTwoToneIcon}
     />
   </Admin>
 );

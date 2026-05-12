@@ -19,6 +19,7 @@ const MyMenu = () => (
       <Menu.ResourceItem name="patients" />
       <Menu.ResourceItem name="appointments" />
       <Menu.ResourceItem name="notifications" />
+      <Menu.ResourceItem name="services" />
     </Submenu>
     <Submenu text="Account" icon={<SettingsTwoToneIcon />}>
       <Menu.ResourceItem name="users" />
