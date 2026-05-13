@@ -13,19 +13,45 @@ import {
   ArrayInput,
   SimpleFormIterator,
   required,
-  ReferenceField
+  ReferenceField,
+  useRecordContext,
+  ReferenceInput,
+  AutocompleteArrayInput,
+  ReferenceArrayField,
+  SingleFieldList,
+  ChipField
+
 } from "react-admin";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import { useContext } from "react";
+
+const Test =  () => {
+  const rec = useRecordContext();
+  console.log(rec)
+}
+
 const ServiceList = () => {
   return (
     <List exporter={false}>
       <DataTable bulkActionButtons={false}>
         <DataTable.Col source="name" />
         <DataTable.Col source="price" />
-        <DataTable.Col source="details" />
+        <DataTable.Col source="decription" />
         <DataTable.Col source="category" />
-        <DataTable.Col source="products" />
+        <DataTable.Col source="products">
+          <ReferenceArrayField
+            source="products"
+            label="Products used for the service"
+            reference="products"
+            link={false}
+          >
+            <SingleFieldList>
+                <ChipField source="name" />
+            </SingleFieldList>
+          </ReferenceArrayField>
+        </DataTable.Col>
+        
       </DataTable>
     </List>
   );
@@ -36,20 +62,18 @@ const ServiceShow = () => (
     <SimpleShowLayout>
       <TextField source="name" />
       <TextField source="price" />
-      <TextField source="details" />
+      <TextField source="decription" />
       <TextField source="category" />
-      <Labeled>
-        <ArrayField source="attributes">
-          <DataTable bulkActionButtons={false} empty={"-"}>
-            <DataTable.Col source="key">
-              <TextField source="key" />
-            </DataTable.Col>
-            <DataTable.Col source="value">
-              <TextField source="value" />
-            </DataTable.Col>
-          </DataTable>
-        </ArrayField>
-      </Labeled>
+      <ReferenceArrayField
+        source="products"
+        label="Products used for the service"
+        reference="products"
+        link={false}
+      >
+        <SingleFieldList>
+          <ChipField source="name" />
+      </SingleFieldList>
+      </ReferenceArrayField>
     </SimpleShowLayout>
   </Show>
 );
@@ -61,23 +85,20 @@ const ServiceEdit = () => (
       <TextInput source="price" />
       <TextInput source="description" />
       <TextInput source="category" />
-      <Box
-        component="section"
-        sx={{ m: 2, p: 1, border: "1px dashed grey", width: "90%" }}
+      <ReferenceInput
+        source="products"
+        label="Products used for the service"
+        reference="products"
+        link={false}
       >
-        <ArrayInput source="attributes">
-          <SimpleFormIterator>
-            <Grid container sx={{ width: "100%" }} spacing={1}>
-              <Grid size={{ xs: 12, sm: 4 }}>
-                <TextInput source="key" validate={[required()]} />
-              </Grid>
-              <Grid size={{ xs: 12, sm: 4 }}>
-                <TextInput source="value" />
-              </Grid>
-            </Grid>
-          </SimpleFormIterator>
-        </ArrayInput>
-      </Box>
+        <AutocompleteArrayInput
+          validate={required()}
+          label="Products"
+          optionText={(product) => {
+            return `${product.name}`;
+          }}
+        />
+      </ReferenceInput>
     </SimpleForm>
   </Edit>
 );
@@ -87,25 +108,22 @@ const ServiceCreate = () => (
     <SimpleForm>
       <TextInput source="name" />
       <TextInput source="price" />
-      <TextInput source="details" />
+      <TextInput source="decription" />
       <TextInput source="category" />
-      <Box
-        component="section"
-        sx={{ m: 2, p: 1, border: "1px dashed grey", width: "90%" }}
+      <ReferenceInput
+        source="products"
+        label="Products used for the service"
+        reference="products"
+        link={false}
       >
-        <ArrayInput source="attributes">
-          <SimpleFormIterator>
-            <Grid container sx={{ width: "100%" }} spacing={1}>
-              <Grid size={{ xs: 12, sm: 4 }}>
-                <TextInput source="key" validate={[required()]} />
-              </Grid>
-              <Grid size={{ xs: 12, sm: 4 }}>
-                <TextInput source="value" />
-              </Grid>
-            </Grid>
-          </SimpleFormIterator>
-        </ArrayInput>
-      </Box>
+        <AutocompleteArrayInput
+          validate={required()}
+          label="Products"
+          optionText={(product) => {
+            return `${product.name}`;
+          }}
+        />
+      </ReferenceInput>
     </SimpleForm>
   </Create>
 );
